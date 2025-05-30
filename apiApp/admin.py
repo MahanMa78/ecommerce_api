@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product , CustomUser , Category
+from .models import Cart, CartItem, Product , CustomUser , Category
 from django.contrib.auth.admin import UserAdmin 
 
 
@@ -22,3 +22,9 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     ordering = ('name',)
 admin.site.register(Category, CategoryAdmin)
+
+
+admin.site.site_header = "E-commerce Admin"
+admin.site.site_title = "E-commerce Admin Portal"
+admin.site.index_title = "Welcome to the E-commerce Admin Portal"
+admin.site.register([Cart , CartItem])  
