@@ -118,3 +118,26 @@ def add_review(request):
     serializer = ReviewSerializer(review)
     
     return Response(serializer.data)
+
+
+
+@api_view(["PUT"])
+def update_review(request , pk):
+    review = Review.objects.get(id=pk)
+    rating = request.data.get("rating")
+    review_text = request.data.get("review")
+    
+    review.rating = rating
+    review.review = review_text
+    review.save()
+    
+    serializer = ReviewSerializer(review)
+    return Response(serializer.data)
+    
+    
+@api_view(["DELETE"])
+def delete_review(request , pk):
+    review = Review.objects.get(id=pk)
+    review.delete()
+    
+    return Response("Review deleted successfully!" , status=204)

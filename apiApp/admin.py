@@ -24,7 +24,7 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 
 
-admin.site.site_header = "E-commerce Admin"
+admin.site.site_header = "Testing stage Admin Panel"
 admin.site.site_title = "E-commerce Admin Portal"
 admin.site.index_title = "Welcome to the E-commerce Admin Portal"
 admin.site.register([Cart , CartItem , Review , ProductRating])  
