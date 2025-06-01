@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Cart, CartItem, Product , CustomUser , Category, ProductRating, Review
+from .models import Cart, CartItem, Product , CustomUser , Category, ProductRating, Review, WishList
 from django.contrib.auth.admin import UserAdmin 
 
 
@@ -27,4 +27,4 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.site_header = "Testing stage Admin Panel"
 admin.site.site_title = "E-commerce Admin Portal"
 admin.site.index_title = "Welcome to the E-commerce Admin Portal"
-admin.site.register([Cart , CartItem , Review , ProductRating])  
+admin.site.register([Cart , CartItem , Review , ProductRating , WishList])  

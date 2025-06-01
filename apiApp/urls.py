@@ -11,5 +11,5 @@ urlpatterns = [
     path("add_review/" , views.add_review , name="add_review"),
     path("update_review/<int:pk>/", views.update_review, name="update_review"),
     path("delete_review/<int:pk>/", views.delete_review, name="delete_review"),
-    path("delete_review/<int:pk>/", views.delete_review, name="delete_review"),
+    path("add_to_wishlist/", views.add_to_wishlist, name="add_to_wishlist"),
 ]

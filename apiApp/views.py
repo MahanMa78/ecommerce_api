@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.contrib.auth import get_user_model
 from rest_framework.decorators import api_view
 from rest_framework.response import Response 
-from .models import Cart, CartItem, Product ,Category, Review
-from .serializers import CartItemSerializer, CartSerializer, ProductListSerializer  , ProductDetailSerializer , CategoryDetailSerializer ,CategoryListSerializer, ReviewSerializer
+from .models import Cart, CartItem, Product ,Category, Review , WishList
+from .serializers import CartItemSerializer, CartSerializer, ProductListSerializer  , ProductDetailSerializer , CategoryDetailSerializer ,CategoryListSerializer, ReviewSerializer, WishListSerializer
 
 
 User = get_user_model()
@@ -141,3 +141,25 @@ def delete_review(request , pk):
     review.delete()
     
     return Response("Review deleted successfully!" , status=204)
+
+
+@api_view(["POST"])
+def add_to_wishlist(request):
+    product_id = request.data.get("product_id")
+    email = request.data.get("email")
+    user = User.objects.get(email=email)
+    
+    try:
+        product = Product.objects.get(id=product_id)
+    except Product.DoesNotExist:
+        return Response({"error": "Product not found"}, status=404)
+    
+    
+    wishlist = WishList.objects.filter(user=user,product=product)
+    if wishlist:
+        wishlist.delete()  
+        return Response({"message": "WishList deleted successfully!"} , status=204)
+    
+    new_wishlist = WishList.objects.create(user=user, product=product)
+    serializer = WishListSerializer(new_wishlist)
+    return Response(serializer.data)

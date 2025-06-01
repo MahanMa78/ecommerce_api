@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Cart, CartItem, Category, Product, Review 
+from .models import Cart, CartItem, Category, Product, Review ,WishList
 from django.contrib.auth import get_user_model
 
 
@@ -87,3 +87,18 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ["id","user","rating","review","created", "updated"]
+        
+        
+
+class WishListSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    product = ProductListSerializer(read_only=True)
+    class Meta:
+        model = WishList
+        fields = ['id', 'user', 'product', 'created']
+        
+    # def create(self, validated_data):
+    #     user = self.context['request'].user
+    #     product = validated_data['product']
+    #     wishlist_item, created = get_user_model().wishlist.through.objects.get_or_create(user=user, product=product)
+    #     return wishlist_item
