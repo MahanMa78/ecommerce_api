@@ -1,10 +1,15 @@
 asgiref==3.8.1
 certifi==2025.6.15
+cffi==1.17.1
 charset-normalizer==3.4.2
+cryptography==45.0.4
 Django==5.2.1
 djangorestframework==3.16.0
+djangorestframework_simplejwt==5.5.0
 idna==3.10
 pillow==11.2.1
+pycparser==2.22
+PyJWT==2.9.0
 python-dotenv==1.1.1
 requests==2.32.4
 sqlparse==0.5.3
