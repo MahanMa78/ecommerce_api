@@ -1,3 +1,6 @@
+from django.http import JsonResponse
+import stripe
+from django.conf import settings
 from django.shortcuts import render
 from django.contrib.auth import get_user_model
 from django.db.models import Q
@@ -7,6 +10,7 @@ from .models import Cart, CartItem, Product ,Category, Review , WishList
 from .serializers import CartItemSerializer, CartSerializer, ProductListSerializer  , ProductDetailSerializer , CategoryDetailSerializer ,CategoryListSerializer, ReviewSerializer, WishListSerializer
 
 
+stripe.api_key = settings.STRIPE_SECRET_KEY
 User = get_user_model()
 
 
@@ -188,3 +192,40 @@ def product_search(request):
     if not products.exists():
         return Response({"error": "No products found"}, status=404)
     
+    
+    
+
+@api_view(["POST"])
+def create_checkout_session(request):
+    cart_code = request.data.get("cart_code")
+    email = request.data.get("email")
+    cart = Cart.objects.get(cart_code=cart_code)
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            customer_email= email,
+            payment_method_types=["card"],
+            line_items=[
+                {
+                    "price_data": {
+                        "currency": "usd",
+                        "product_data": {
+                            "name": item.product.name,
+                        },
+                        "unit_amount": int(item.product.price  * 100),
+                    },
+                    "quantity": item.quantity,
+                }
+                
+                for item in cart.cartitems.all()
+                
+            ],
+            mode="payment",
+            # success_url="https://127.0.0.1:8000/success",
+            # cancel_url="https://127.0.0.1:8000/cancel",
+            
+            success_url="https://next-shop-self.vercel.app/success",
+            cancel_url="https://next-shop-self.vercel.app/failed",
+        )
+        return Response({"data": checkout_session})
+    except Exception as e:
+        return Response({"error": str(e)}, status=400)
