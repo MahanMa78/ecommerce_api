@@ -3,7 +3,9 @@ certifi==2025.6.15
 cffi==1.17.1
 charset-normalizer==3.4.2
 cryptography==45.0.4
+dj-rest-auth==7.0.1
 Django==5.2.1
+django-allauth==65.9.0
 djangorestframework==3.16.0
 djangorestframework_simplejwt==5.5.0
 idna==3.10
